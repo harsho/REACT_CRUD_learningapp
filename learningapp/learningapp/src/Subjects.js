@@ -5,14 +5,14 @@ import { useState } from "react";
 import { useEffect } from "react";
 import {Link} from "react-router-dom";
 
-const Home = () => {
+const Subjects = ({setSubjectID}) => {
 
     //const {error, isPending, data: books} = ;
     //const [Id, setId] = useState(int);
     // const [Question, setQuestion] = useState("");
     // const [Answer, setAnswer] = useState("");
     // const [newCard, setNewCard] = useState("");
-    // const [Cards, setCards] = useState([]);
+    const [subjectList, setSubjectList] = useState([]);
 
 //     const submitCard = () => {
 //         Axios.post("http://localhost:3001/api/insert", {
@@ -23,11 +23,11 @@ const Home = () => {
 //         });
 //     };
 
-//     const getCards = () => {
-//         Axios.get("http://localhost:3001/api/get").then((response) => {
-//             setCards(response.data);
-//         });
-//     };
+    const getSubjects = () => {
+        Axios.get("http://localhost:3001/api/get/subjects").then((response) => {
+            setSubjectList(response.data);
+        });
+    };
 
 //     const deleteCard = (cardQuestion) => {
 //       Axios.delete(`http://localhost:3001/api/delete/${cardQuestion}`);
@@ -52,7 +52,11 @@ const Home = () => {
 //   });
   
 // };
+    const getSubjectID=(subjectID)=>{
+        setSubjectID(subjectID);
+        console.log(subjectID);
 
+    };
 
     const handleClick = (e) => {
         console.log('hello', e);
@@ -78,42 +82,28 @@ const Home = () => {
 
       return (
         <div className="home">
-          <h2>Homepage</h2>
-          <button onClick={handleClick}><Link to="/subjects"> Subjects</Link></button>
-          <button onClick={(e) => handleClickAgain('user', e)}>Click me again</button>
-        <div>
-            {/* <ListGroup as="ul"> 
-                <ListGroup.Item as="li" active>Math</ListGroup.Item>
-                <ListGroup.Item as="li" >Business</ListGroup.Item>
-                <ListGroup.Item as="li" >Computer Science</ListGroup.Item>
-            </ListGroup> */}
-            <Dropdown>
-                <Dropdown.Toggle variant="success" id="dropdown-basic">
-                    Select Subject
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                    <Dropdown.Item href="#/action-1" onClick={handleMathClick}>
-                      <Link to="/Books"> Math</Link>
-                     </Dropdown.Item>
-                    <Dropdown.Item href="#/action-1" onClick={handleBusinessClick}>
-                    <Link to="/Books"> Business</Link>
-                    </Dropdown.Item>
-                    <Dropdown.Item href="#/action-1" onClick={handleScienceClick}>
-                    <Link to="/Books"> Science</Link>
-                    </Dropdown.Item>
-                </Dropdown.Menu>
-            </Dropdown>
-        </div>  
-        {/* <div> 
-            <button onClick={getCards}>Show Cards</button>  
-            {Cards.map((val)=> {
+          <h2>Subjects</h2>
+         
+       
+        <div> 
+            <button onClick={getSubjects}>Show Subjects</button>  
+            {subjectList.map((val)=> {
             return (
               <div className="flex-container">
               <div className="card question">
-            <p>{val.Question}</p>
-           
+            <p>{val.SubjectName}</p>
+            <Link to={{
+                    pathname: '/books',
+                    state: {
+                        fromSubjects: true,
+                        SubjectID: val.SubjectID
+                    }
+                }}> 
+                
+                <button onClick={()=>(getSubjectID(val.SubjectID))}>Get Books {val.SubjectID}</button>
+                </Link>
             </div>
-            <div className="card answer">
+            {/* <div className="card answer">
                <p>{val.Answer}</p>
             </div>
             
@@ -121,14 +111,14 @@ const Home = () => {
               setNewCard(event.target.value);
             }}/>
             <button className="updatebtn" onClick={() => {updateCard(val.Question)}}>Update Card</button>
-            <button className="updatebtn" onClick={() => {deleteCard(val.Question)}}>Delete Card</button>
+            <button className="updatebtn" onClick={() => {deleteCard(val.Question)}}>Delete Card</button> */}
             </div>
             );
             })}
-        </div> */}
+        </div>
         </div>
          
       );
     }
  
-export default Home;
+export default Subjects;

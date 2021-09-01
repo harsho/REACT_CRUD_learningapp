@@ -4,7 +4,7 @@ import Axios from 'axios';
 import { useState } from "react";
 import { useEffect } from "react";
 
-const Cards = () => {
+const Cards = (bookID, bookChapterID) => {
 
     //const {error, isPending, data: books} = ;
     //const [Id, setId] = useState(int);
@@ -85,7 +85,7 @@ const Cards = () => {
                 <ListGroup.Item as="li" >Business</ListGroup.Item>
                 <ListGroup.Item as="li" >Computer Science</ListGroup.Item>
             </ListGroup> */}
-            <Dropdown>
+            {/* <Dropdown>
                 <Dropdown.Toggle variant="success" id="dropdown-basic">
                     Select Subject
                 </Dropdown.Toggle>
@@ -94,7 +94,7 @@ const Cards = () => {
                     <Dropdown.Item href="#/action-1" onClick={handleBusinessClick}>Business</Dropdown.Item>
                     <Dropdown.Item href="#/action-1" onClick={handleScienceClick}>Science</Dropdown.Item>
                 </Dropdown.Menu>
-            </Dropdown>
+            </Dropdown> */}
         </div>  
         <div> 
             <button onClick={getCards}>Show Cards</button>  
