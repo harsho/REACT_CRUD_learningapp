@@ -7,6 +7,7 @@ import Cards from './Cards';
 import Chapters from './Chapters';
 import { useState } from "react";
 import Subjects from './Subjects';
+import NotFound from './Notfound';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -23,7 +24,7 @@ const [cardInfo, setCardInfo] = useState({
 });
 
 //const [userID, setUserID] = useState(0);
-
+// (/:SubjectID)(/:BookID)(/:BookChapterID)(/:CardID)
 
 
   return (
@@ -39,17 +40,23 @@ const [cardInfo, setCardInfo] = useState({
                 <Home />
               </Route>
               <Route exact path="/subjects">
-                <Subjects setSubjectID={setSubjectID}/>
+                {/* <Subjects setSubjectID={setSubjectID}/> */}
+                <Subjects />
               </Route>
-              <Route path="/books">
-                <Books subjectID={subjectID} setBookID={setBookID}/>
+              <Route path="/books/:SubjectID">
+                {/* <Books subjectID={subjectID} setBookID={setBookID}/> */}
+                <Books />
               </Route>
-              <Route path="/chapters">
-                <Chapters bookID={bookID} setBookChapterID={setBookChapterID}/>
+              <Route path="/chapters/:SubjectID/:BookID">
+                {/* <Chapters bookID={bookID} setBookChapterID={setBookChapterID}/> */}
+                <Chapters />
               </Route>
-              <Route path="/cards">
-                <Cards bookChapterID={bookChapterID}/>
+              <Route path="/cards/:SubjectID/:BookID/:BookChapterID">
+                <Cards />
               </Route>
+              <Route path="*">
+                <NotFound />
+                </Route> 
             </Switch>
             
           </div>
