@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const db = mysql.createPool({
     host: 'localhost',
     user: 'USERNAME',
-    password: 'XXXXXXXX',
+    password: 'XXXXXXX',
     database: 'learningapp'
 
 });
@@ -77,8 +77,8 @@ app.put("/api/update/Subject", (req, res) => {
 
 ///////////////////// Books CRUD //////////////////////
 //Only get is correct right now
-
 app.get('/api/get/books/:subjectnameID', (req, res)=> {
+//app.get(`/api/get/books/${subjectnameID}`, (req, res)=> {
     const sqlSelect = "SELECT * FROM Books WHERE SubjectID = ?";
     const SubjectID = req.params.subjectnameID
     db.query(sqlSelect, [SubjectID], (err, result) => {
@@ -136,9 +136,10 @@ app.put("/api/update", (req, res) => {
 
 ///////////////////// Chapters CRUD //////////////////////
 //Only get is correct right now
-app.get('/api/get/chapters/:booknameID', (req, res)=> {
+app.get('/api/get/chapters/:SubjectID/:BookID', (req, res)=> {
     const sqlSelect = "SELECT * FROM Chapters WHERE BookID = ?";
-    const BookID = req.params.booknameID;
+    const SubjectID = req.params.SubjectID;
+    const BookID = req.params.BookID;
     console.log(BookID);
     db.query(sqlSelect, [BookID],(err, result) => {
         if (err) {
@@ -195,9 +196,10 @@ app.put("/api/update", (req, res) => {
 
 
 ///////////////////// CARDS CRUD //////////////////////
-app.get('/api/get', (req, res)=> {
-    const sqlSelect = "SELECT * FROM Cards";
-    db.query(sqlSelect, (err, result) => {
+app.get('/api/get/cards/:SubjectID/:BookID/:BookChapterID', (req, res)=> {
+    const sqlSelect = "SELECT * FROM Cards WHERE BookChapterID = ? ";
+    const BookChapterID = req.params.BookChapterID;
+    db.query(sqlSelect, BookChapterID,(err, result) => {
         //console.log(result);
         res.send(result);
     });
