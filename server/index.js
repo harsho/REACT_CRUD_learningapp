@@ -6,8 +6,8 @@ const bodyParser = require('body-parser');
 
 const db = mysql.createPool({
     host: 'localhost',
-    user: 'devvo',
-    password: '{Ovved1!}',
+    user: 'username',
+    password: 'XXXXXX',
     database: 'test'
 
 });
