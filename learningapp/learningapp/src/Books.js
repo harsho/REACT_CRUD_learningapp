@@ -1,32 +1,47 @@
-import {Link} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Axios from 'axios';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Chapters from './Chapters';
+import useGet from './useGet';
 
-const Books = (subjectID, {setBookID}) => {
+const Books = () => {
+    const {SubjectID} = useParams();
+    const {data: Books, isLoading, error} = useGet('http://localhost:3001/api/get/books/' + SubjectID);
+    console.log("Book page SubjectID:", SubjectID);
+    // const [subjectnameID, setSubjectnameID] = useState('');
+    //const [BookName, setBookName] = useState('');
+    //const [BookAuthor, setBookAuthor] = useState('');
+    // const [Books, setBooks] = useState([]);
+    // const [loading, setIsLoading] = useState(true);
+    //const [bookID, setBookID] = useState('');
+    
+    // useEffect(()=>{
+    // //const getBooks = () => {
+    //     setTimeout(()=>{
+    //     console.log(JSON.stringify(subjectID.subjectID));
+    //     setSubjectnameID(subjectID.subjectID);
+    //      },10000); 
+    //     console.log("subject name ID", subjectnameID);
+    //        //if(subjectnameID){
+    //             Axios.get(`http://localhost:3001/api/get/books/${subjectID.subjectID}`).then((response) => {
+    //                 setBooks(response.data);
+    //                 setIsLoading(false); 
+    //             }).catch((err)=>{
+    //                 console.log(err);
+    //             });
+    //         //}
+    //        // };
 
-    const [subjectnameID, setSubjectnameID] = useState('');
-    const [BookName, setBookName] = useState('');
-    const [BookAuthor, setBookAuthor] = useState('');
-    const [Books, setBooks] = useState([]);
-
-    const getBooks = () => {
-        console.log(JSON.stringify(subjectID.subjectID));
-        setSubjectnameID(subjectID.subjectID);
-        console.log(subjectID);
-           if(subjectnameID){
-                Axios.get(`http://localhost:3001/api/get/books/${subjectnameID}`).then((response) => {
-                    setBooks(response.data);
-                });
-            }
-            };
-
-    const getBookID=(BookID)=>{
-        setBookID(BookID);
-        console.log(BookID);
-    };
-
+             
+         
+    // }, []); 
+    
+    
+    // const getBookID=(bookID)=>{
+    //    setBookID(bookID);
+    //     console.log(bookID);
+    // };
     // const getChapters = (BookName) => {
     //     {
     //          Linkto 
@@ -39,9 +54,10 @@ const Books = (subjectID, {setBookID}) => {
 
         <div className="books">
             <h2>List of Books</h2>
+            {isLoading && <div>Is loading</div>}
+            { error && <div>{ error }</div> }
+            {Books && <div> 
             
-            <div> 
-            <button onClick={getBooks}>Show Books</button>  
             {Books.map((val)=> {
             return (
               <div className="flex-container">
@@ -56,14 +72,14 @@ const Books = (subjectID, {setBookID}) => {
             <div className="updatebtn">
                 {/* <Link to= {`/chapters/${val.BookID}`}> */}
                 <Link to={{
-                    pathname: '/chapters',
-                    state: {
-                        fromBooks: true,
-                        BookID: val.BookID
-                    }
+                    pathname: `/chapters/${SubjectID}/${val.BookID}`,
+                    // state: {
+                    //     fromBooks: true,
+                    //     BookID: val.BookID
+                    // }
                 }}> 
                 
-                <button onClick={()=>(getBookID(val.BookID))}>Get Chapters {val.BookID}</button>
+                <button >Get Chapters {val.BookID}</button>
                 </Link>
             </div>
             {/* <input type="text" id="updateInput" onChange={(event)=> {
@@ -74,7 +90,7 @@ const Books = (subjectID, {setBookID}) => {
             </div>
             );
             })}
-        </div> 
+        </div> }
             
             {/* {books.map( book => (
                 <div className="book-preview" key={book.bookID} >
