@@ -8,6 +8,7 @@ import Chapters from './Chapters';
 import { useState } from "react";
 import Subjects from './Subjects';
 import NotFound from './Notfound';
+import LearningGame from './LearningGame';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -53,6 +54,9 @@ const [cardInfo, setCardInfo] = useState({
               </Route>
               <Route path="/cards/:SubjectID/:BookID/:BookChapterID">
                 <Cards />
+              </Route>
+              <Route path="/learningGame/">
+                <LearningGame />
               </Route>
               <Route path="*">
                 <NotFound />

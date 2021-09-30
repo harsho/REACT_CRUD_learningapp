@@ -6,8 +6,8 @@ const bodyParser = require('body-parser');
 
 const db = mysql.createPool({
     host: 'localhost',
-    user: 'USERNAME',
-    password: 'XXXXXXX',
+    user: 'devvo',
+    password: '{Ovved1!}',
     database: 'learningapp'
 
 });
@@ -244,6 +244,21 @@ app.put("/api/update", (req, res) => {
            console.log(result);
        }
 
+    });
+});
+
+///////////////////// Learning CRUD //////////////////////
+app.get('/api/get/learning/', (req, res)=> {
+    const sqlSelect = "SELECT * FROM Cards WHERE CardID in ?";
+    const cards = req.query.cardIds;
+    db.query(sqlSelect, cards,(err, result) => {
+        //console.log(result);
+        if (err) {
+            console.log(err);
+        }
+        else{
+        res.send(result);
+        }
     });
 });
 

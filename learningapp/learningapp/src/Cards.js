@@ -1,5 +1,4 @@
-import ListGroup from 'react-bootstrap/ListGroup';
-import Dropdown from 'react-bootstrap/Dropdown';
+import { Link } from 'react-router-dom';
 import Axios from 'axios';
 import { useState } from "react";
 import { useEffect } from "react";
@@ -12,12 +11,14 @@ const Cards = (bookID, bookChapterID) => {
   console.log("Card page SubjectID:", SubjectID);
   console.log("Card page BookID:", BookID);
   console.log("Card page BookChapterID:", BookChapterID);
+  const [selectedCards, setSelectedCards] = useState([]);
+  
     //const {error, isPending, data: books} = ;
-    // const [Id, setId] = useState(int);
+    const [CardID, setCardID] = useState("");
     const [Question, setQuestion] = useState("");
     const [Answer, setAnswer] = useState("");
     const [newCard, setNewCard] = useState("");
-    // const [cardsList, setCardsList] = useState([]);
+   // const [cardsList, setCardsList] = useState([]);
 
     const submitCard = () => {
         Axios.post("http://localhost:3001/api/insert", {
@@ -71,8 +72,23 @@ const Cards = (bookID, bookChapterID) => {
         console.log('Math', e);
       }
 
-      const handleScienceClick = (e) => {
-        console.log('Science', e);
+      const getCardList = (CardID,e) => {
+        const newCardsList = selectedCards.concat({CardID})
+        setSelectedCards(newCardsList)
+        console.log(e);
+        selectedCards.map((item)=>{
+        console.log(item.CardID);
+        });
+        
+      }
+      const getFinalList = (e) => {
+        const newCardsList = selectedCards.slice(1);
+        setSelectedCards(newCardsList)
+        console.log(e);
+        selectedCards.map((item)=>{
+        console.log(item.CardID);
+        });
+        
       }
 
       const handleBusinessClick = (e) => {
@@ -111,8 +127,9 @@ const Cards = (bookID, bookChapterID) => {
             return (
               <div className="flex-container">
               <div className="card question">
+            <button onClick={()=> {getCardList(val.CardID)}}>Select Card {val.CardID}</button>    
             <p>{val.Question}</p>
-           
+            
             </div>
             <div className="card answer">
                <p>{val.Answer}</p>
@@ -126,6 +143,16 @@ const Cards = (bookID, bookChapterID) => {
             </div>
             );
             })}
+            
+              <Link to={{
+                    pathname:"/learningGame/",
+                    //`/cards/${SubjectID}/${BookID}/${val.BookChapterID}`,
+                    state: {
+                        selectedCardsList: selectedCards,
+                    }
+                }}> 
+                <button onClick={()=> {getFinalList()}}>Go to LearningGame</button>
+                </Link> 
             </div>}
         </div>
         </div>
